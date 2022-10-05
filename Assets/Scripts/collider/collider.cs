@@ -23,19 +23,19 @@ public class collider : MonoBehaviour
         // and shoot it to the cursor position
         while (true){
             yield return new WaitWhile(() => !Input.GetMouseButton(0));
-            // Get the position of the cursor
-            Vector3 direction = Camera.main.ScreenPointToRay(Input.mousePosition).direction;
+            // Get the direction of the camera 
+            Vector3 direction = Camera.main.transform.forward;
             // Change the bullet orientation to the cursor direction
             Quaternion rotation = Quaternion.LookRotation(direction);
             // Rotate it for 90° to have the bullet pointing to the cursor
             rotation *= Quaternion.Euler(90, 0, 0);
-            // Instantiate the bullet from just under the parent object
-            GameObject go = Instantiate(bullet, transform.position + new Vector3(0.28f, -0.25f, 0.9f), rotation);
+            // Instantiate the bullet
+            GameObject go = Instantiate(bullet, transform.position, rotation);
             // Shoot the bullet to the cursor position
             go.GetComponent<Rigidbody>().AddForce((direction * 3000));
             // Destroy the bullet after 3 second
             Destroy(go, 5);
-            // Wait for 1/9,25 seconds
+            // Wait for 1/9,25 seconds (Vandal cadence Valorant)
             yield return new WaitForSeconds(1/9.25f);
         }
     }
