@@ -4,18 +4,28 @@ using UnityEngine;
 
 public class movement : MonoBehaviour
 {
-    [SerializeField] private GameObject player;
 
+    private Vector3 playerVelocity;
+    private bool groundedPlayer;
+    [SerializeField] private float playerSpeed = 2.0f;
+    [SerializeField] private float jumpHeight = 1.0f;
+    [SerializeField] private float gravityValue = -9.81f;
+    
     // Start is called before the first frame update
     void Start()
     {
-        
+        controller = gameObject.AddComponent<CharacterController>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        // Move the object according to the input
-        transform.Translate(Input.GetAxis("Horizontal") * Time.deltaTime * 5, 0, Input.GetAxis("Vertical") * Time.deltaTime * 5);
+        groundedPlayer = controller.isGrounded;
+        if (groundedPlayer && playerVelocity.y < 0)
+        {
+            playerVelocity.y = 0f;
+        }
+        
+        
     }
 }

@@ -45,7 +45,8 @@ public class hitregisterer : MonoBehaviour
         float x = Random.Range(-5, 5);
         float z = Random.Range(5, 10);
         // Checks if there is any object in the coordinates
-        while (Physics.CheckSphere(new Vector3(x, 0.5f, z), 0.49f)){
+        // 0.5 to avoid the size of the object making it clip, +0.01 because the spawn platform is 0.01 higher than the ground
+        while (Physics.CheckSphere(new Vector3(x, 0.51f, z), 0.49f)){
             x = Random.Range(-5, 5);
             z = Random.Range(5, 10);
         };
