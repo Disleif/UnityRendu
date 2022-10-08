@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class kill : MonoBehaviour
 {
-    [SerializeField] private GameObject init;
+    [SerializeField] private GameObject spawn1;
+    [SerializeField] private GameObject spawn2;
 
     // Collision detection
     private void OnCollisionEnter(Collision collision)
@@ -14,8 +15,19 @@ public class kill : MonoBehaviour
         {
             // Destroy the target
             Destroy(collision.gameObject);
+            // Destroy the bullet
+            Destroy(gameObject);
             // Create a new target
-            init.GetComponent<hitregisterer>().CreateTarget();
+            spawn1.GetComponent<hitregisterer>().CreateTarget();
+        }
+        else if (collision.gameObject.tag == "targetSphere")
+        {
+            // Destroy the target
+            Destroy(collision.gameObject);
+            // Destroy the bullet
+            Destroy(gameObject);
+            // Create a new target
+            spawn2.GetComponent<hitregisterer1>().CreateTargetSphere();
         }
     }
 
