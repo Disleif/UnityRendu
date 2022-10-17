@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class kill : MonoBehaviour
+public class hit : MonoBehaviour
 {
     [SerializeField] private GameObject spawn1;
     [SerializeField] private GameObject spawn2;
@@ -10,15 +10,16 @@ public class kill : MonoBehaviour
     // Collision detection
     private void OnCollisionEnter(Collision collision)
     {
+        
         // If the bullet hit a target
         if (collision.gameObject.tag == "target")
         {
-            // Destroy the target
-            Destroy(collision.gameObject);
+            // Call the dummie's function to change its state from the spawn platform
+            if (!collision.gameObject.GetComponent<changeState>().modifyState())
+                spawn1.GetComponent<spawnDummies>().CreateTarget();
+            
             // Destroy the bullet
             Destroy(gameObject);
-            // Create a new target
-            spawn1.GetComponent<hitregisterer>().CreateTarget();
         }
         else if (collision.gameObject.tag == "targetSphere")
         {
@@ -27,7 +28,7 @@ public class kill : MonoBehaviour
             // Destroy the bullet
             Destroy(gameObject);
             // Create a new target
-            spawn2.GetComponent<hitregisterer1>().CreateTargetSphere();
+            spawn2.GetComponent<spawnSpheres>().CreateTargetSphere();
         }
     }
 

@@ -2,11 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class hitregisterer1 : MonoBehaviour
+public class spawnDummies : MonoBehaviour
 {
     private List<GameObject> dummies = new List<GameObject>();
-    [SerializeField] private GameObject targetSphere;
-    [SerializeField, Range(1,10)] private int targetNumber = 5;
+    [SerializeField] public GameObject target;
+    [SerializeField, Range(1,5)] private int targetNumber = 5;
     private int lastTargetNumber;
     // Start is called before the first frame update
     void Start()
@@ -16,7 +16,7 @@ public class hitregisterer1 : MonoBehaviour
         // Generate targetNumber differente random coordinates between 5 and 20, then -10 and 10
         for (int i = 0; i < targetNumber; i++)
         {
-            CreateTargetSphere();
+            CreateTarget();
         }
     }
 
@@ -26,7 +26,7 @@ public class hitregisterer1 : MonoBehaviour
         // Adapt the numer of dummies to the targetNumber
         if (lastTargetNumber < targetNumber) {
             for (int i = lastTargetNumber; i < targetNumber; i++) {
-                CreateTargetSphere();
+                CreateTarget();
             }
             lastTargetNumber = targetNumber;
         }
@@ -40,20 +40,19 @@ public class hitregisterer1 : MonoBehaviour
         }
     }
 
-    public void CreateTargetSphere() {
-        // Generate random coordinates 
-        float x = Random.Range(22.5f, 37.5f);
-        float y = Random.Range(1.5f, 7.5f);
-        float z = Random.Range(-2.5f, 17.5f);
+    public void CreateTarget() {
+        // Generate random coordinates
+        float x = Random.Range(-8, 12);
+        float z = Random.Range(10, 20);
         // Checks if there is any object in the coordinates
-        while (Physics.CheckSphere(new Vector3(x, y, z), 1)){
-            x = Random.Range(22.5f, 37.5f);
-            y = Random.Range(1.5f, 7.5f);
-            z = Random.Range(-2.5f, 17.5f);
+        // 0.5 to avoid the size of the object making it clip, +0.01 because the spawn platform is 0.01 higher than the ground
+        while (Physics.CheckSphere(new Vector3(x, 2, z), 0.4f)){
+            x = Random.Range(-8, 12);
+            z = Random.Range(10, 20);
         };
 
-        // Instantiate a sphere object
-        GameObject go = Instantiate(targetSphere, new Vector3(x, y, z), Quaternion.identity);
+        // Instantiate a target object in front of main camera, on the cube under the parent object
+        GameObject go = Instantiate(target, new Vector3(x, 1, z), Quaternion.identity);
         // Add it to the list
         dummies.Add(go);
     }
